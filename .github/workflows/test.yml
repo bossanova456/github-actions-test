@@ -1,0 +1,29 @@
+name: Test Workflow
+on: [ workflow_call ]
+jobs:
+  firstJob:
+    #    needs: release
+    outputs:
+      testValue: ${{steps.test-step.outputs.testValue}}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3.0.0
+        with:
+          fetch-depth: 0
+
+      - name: Short Description
+        id: test-step
+        shell: bash
+        run: |
+          testValue=$(cat test.json | jq ".testValue1")
+          echo "Read value: $testValue"
+          echo "testValue=$testValue" >> $GITHUB_OUTPUT
+
+  secondJob:
+    needs: firstJob
+    steps:
+      - name: Read test value
+        id: test-read
+        shell: bash
+        run: |
+          echo "Reading test value: ${{needs.firstJob.outputs.testValue}}"
