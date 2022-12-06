@@ -3,6 +3,7 @@ on: [ workflow_call, workflow_dispatch ]
 jobs:
   firstJob:
     #    needs: release
+    runs-on: self-hosted
     outputs:
       testValue: ${{steps.test-step.outputs.testValue}}
     steps:
@@ -21,6 +22,7 @@ jobs:
 
   secondJob:
     needs: firstJob
+    runs-on: self-hosted
     steps:
       - name: Read test value
         id: test-read
