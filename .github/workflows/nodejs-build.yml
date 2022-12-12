@@ -1,12 +1,14 @@
 name: Node.js CI
-
 on:
   push:
-    branches: [ main ]
   pull_request:
-    branches: [ main ]
   workflow_dispatch:
     branches: [ main ]
+    inputs:
+      test-value:
+        description: 'Test Input'
+        type: string
+        required: true
 
 jobs:
   build:
